@@ -4,7 +4,6 @@ import Header from "./Header";
 import ImagePopup from "./ImagePopup";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
-import Api from '../utils/api'
 
 function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -12,6 +11,7 @@ function App() {
 	const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
 	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
 		React.useState(false);
+	const [selectedCard, setSelectedCard] = React.useState(null);
 
 	function handleEditAvatarClick() {
 		setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -29,18 +29,17 @@ function App() {
 		setIsEditProfilePopupOpen(false);
 		setIsAddPlacePopupOpen(false);
 		setIsEditAvatarPopupOpen(false);
+		setSelectedCard(null);
 	}
 
-  document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape") {
-			closeAllPopups();
-		}
-  });
-
-  function handleEscClose(evt) {
+	document.addEventListener("keydown", (evt) => {
 		if (evt.key === "Escape") {
 			closeAllPopups();
 		}
+	});
+
+	function handleCardClick(card) {
+		setSelectedCard(card);
 	}
 
 	return (
@@ -50,6 +49,7 @@ function App() {
 				onEditAvatar={handleEditAvatarClick}
 				onEditProfile={handleEditProfileClick}
 				onAddPlace={handleAddPlaceClick}
+				handleCardClick={handleCardClick}
 			/>
 			<Footer />
 			<PopupWithForm
@@ -160,7 +160,9 @@ function App() {
 				}
 			/>
 
-			<ImagePopup />
+			{selectedCard && (
+				<ImagePopup card={selectedCard} onClose={closeAllPopups} />
+			)}
 		</div>
 	);
 }

@@ -1,3 +1,4 @@
+import React from "react";
 //создаем класс api для обмена информацией с сервером
 class Api {
 	//в конструктор url и заголовок в виде массива - токен авторизации и тип данных
@@ -99,9 +100,7 @@ class Api {
 //токен для авторизации
 const token = "6ea24768-e3b3-4cce-a68a-3bff993d63e5";
 //создаем элемент api
-const Api = new Api("https://nomoreparties.co/v1/cohort-66", {
+export const api = new Api("https://nomoreparties.co/v1/cohort-66", {
 	authorization: token,
 	"Content-Type": "application/json",
 });
-
-export default Api

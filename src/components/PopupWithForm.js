@@ -15,8 +15,6 @@ function PopupWithForm({
 		}
 	}
 
-	
-
 	return (
 		<div
 			className={`popup ${isOpen} popup_value_${name}`}
