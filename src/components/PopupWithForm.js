@@ -8,6 +8,20 @@ function PopupWithForm({
 	onClose,
 	children,
 }) {
+	React.useEffect(() => {
+		if (!isOpen) return;
+
+		function handleESC(e) {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		}
+
+		document.addEventListener("keydown", handleESC);
+
+		return () => document.removeEventListener("keydown", handleESC);
+	}, [isOpen]);
+
 	function clickClosePopap(e) {
 		//  //если область клика содержит дочерний элемент - открытый попап
 		if (e.target.classList.contains("popup_openend")) {
@@ -27,7 +41,7 @@ function PopupWithForm({
 					onClick={onClose}
 				></button>
 				<h3 className="popup__title">{title}</h3>
-				<form className="popup__form" name={name} novalidate>
+				<form className="popup__form" name={name} noValidate>
 					{children}
 					<button
 						type="submit"

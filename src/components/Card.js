@@ -7,33 +7,31 @@ function Card({ card, handleCardClick }) {
 		handleCardClick(card);
 	};
 
-	console.log(`url(${card.link})`);
-
 	return (
-		<article class="place">
+		<article className="place">
 			<button
 				type="button"
-				class="button place__image-button popup__save_condition_hover"
+				className="button place__image-button popup__save_condition_hover"
 				onClick={cardClick}
 			>
 				<img
 					style={{ backgroundImage: `url(${card.link})` }}
-					class="place__image"
+					className="place__image"
 				/>
 			</button>
-			<div class="place__text">
-				<h2 class="place__title">{card.name}</h2>
-				<div class="like">
+			<div className="place__text">
+				<h2 className="place__title">{card.name}</h2>
+				<div className="like">
 					<button
 						type="button"
-						class="place__like button button_condition_hover"
+						className="place__like button button_condition_hover"
 					>
 						<img src={like} alt="лайк." />
 					</button>
-					<span class="place__like-sum">{card.likes.length}</span>
+					<span className="place__like-sum">{card.likes.length}</span>
 				</div>
 			</div>
-			<button type="button" class="place__trash button button_condition_hover">
+			<button type="button" className="place__trash button button_condition_hover">
 				<img src={trash} alt="кнопка удаления." />
 			</button>
 		</article>

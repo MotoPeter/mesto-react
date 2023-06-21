@@ -3,20 +3,21 @@ import plus from "../images/plus.svg";
 import { api } from "../utils/api.js";
 import Card from "./Card.js";
 
+
 function Main({ onEditAvatar, onEditProfile, onAddPlace, handleCardClick }) {
-	const [isUserInfo, setIsUserInfo] = React.useState({
+	const [userInfo, setUserInfo] = React.useState({
 		userName: "",
 		userDescription: "",
 		userAvatar: "",
 	});
 
-	const [isCards, setIsCards] = React.useState([]);
+	const [cards, setIsCards] = React.useState([]);
 
 	React.useEffect(() => {
 		Promise.all([api.getInitialCards(), api.getUserInfo()])
 			.then(([initialCards, userInfo]) => {
 				const userId = userInfo._id;
-				setIsUserInfo({
+				setUserInfo({
 					userName: userInfo.name,
 					userDescription: userInfo.about,
 					userAvatar: userInfo.avatar,
@@ -32,7 +33,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, handleCardClick }) {
 		<main className="content">
 			<section className="profile">
 				<img
-					style={{ backgroundImage: `url(${isUserInfo.userAvatar})` }}
+					style={{ backgroundImage: `url(${userInfo.userAvatar})` }}
 					className="profile__avatar"
 				/>
 				<button
@@ -41,8 +42,8 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, handleCardClick }) {
 				></button>
 				<div className="profile__info">
 					<div className="profile__text">
-						<h1 className="profile__name">{isUserInfo.userName}</h1>
-						<p className="profile__ocupation">{isUserInfo.userDescription}</p>
+						<h1 className="profile__name">{userInfo.userName}</h1>
+						<p className="profile__ocupation">{userInfo.userDescription}</p>
 					</div>
 					<button
 						type="button"
@@ -59,7 +60,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, handleCardClick }) {
 				</button>
 			</section>
 			<section className="grid-places">
-				{isCards.map((card) => (
+				{cards.map((card) => (
 					<Card key={card._id} card={card} handleCardClick={handleCardClick} />
 				))}
 			</section>

@@ -1,6 +1,20 @@
 import React from "react";
 
 function ImagePopup({ card, onClose }) {
+	React.useEffect(() => {
+		if (!card) return;
+
+		function handleESC(e) {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		}
+
+		document.addEventListener("keydown", handleESC);
+
+		return () => document.removeEventListener("keydown", handleESC);
+	}, [card]);
+
 	function clickClosePopap(e) {
 		//  //если область клика содержит дочерний элемент - открытый попап
 		if (e.target.classList.contains("popup_openend")) {
@@ -19,7 +33,7 @@ function ImagePopup({ card, onClose }) {
 					className="popup__close popup__close_value_img button button_condition_hover"
 				></button>
 				<figure className="figure popup__figure">
-					<img src={card.link} className="figure__img" alt="" />
+					<img src={card.link} className="figure__img" alt={card.name} />
 					<figcaption className="figure__caption">{card.name}</figcaption>
 				</figure>
 			</div>

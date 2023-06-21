@@ -14,15 +14,15 @@ function App() {
 	const [selectedCard, setSelectedCard] = React.useState(null);
 
 	function handleEditAvatarClick() {
-		setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+		setIsEditAvatarPopupOpen(true);
 	}
 
 	function handleEditProfileClick() {
-		setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+		setIsEditProfilePopupOpen(true);
 	}
 
 	function handleAddPlaceClick() {
-		setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+		setIsAddPlacePopupOpen(true);
 	}
 
 	function closeAllPopups() {
@@ -31,12 +31,6 @@ function App() {
 		setIsEditAvatarPopupOpen(false);
 		setSelectedCard(null);
 	}
-
-	document.addEventListener("keydown", (evt) => {
-		if (evt.key === "Escape") {
-			closeAllPopups();
-		}
-	});
 
 	function handleCardClick(card) {
 		setSelectedCard(card);
@@ -67,11 +61,11 @@ function App() {
 								value=""
 								placeholder="Имя"
 								required
-								autocomplete="off"
+								autoComplete="off"
 								className="popup__input popup__input-first popup__input_data_name"
 								type="text"
-								minlength="2"
-								maxlength="40"
+								minLength="2"
+								maxLength="40"
 							/>
 							<span className="name-input-error popup__input-error"></span>
 						</label>
@@ -82,11 +76,11 @@ function App() {
 								value=""
 								placeholder="Род занятий"
 								required
-								autocomplete="off"
+								autoComplete="off"
 								className="popup__input popup__input-second popup__input_data_ocupation"
 								type="text"
-								minlength="2"
-								maxlength="200"
+								minLength="2"
+								maxLength="200"
 							/>
 							<span className="ocupation-input-error popup__input-error"></span>
 						</label>
@@ -107,12 +101,12 @@ function App() {
 								id="place-input"
 								name="name"
 								placeholder="Название"
-								autocomplete="off"
+								autoComplete="off"
 								className="popup__input popup__input_data_location popup__input-first"
 								type="text"
 								required
-								minlength="2"
-								maxlength="30"
+								minLength="2"
+								maxLength="30"
 							/>
 							<span className="place-input-error popup__input-error"></span>
 						</label>
@@ -121,7 +115,7 @@ function App() {
 								id="link-input"
 								name="link"
 								placeholder="Ссылка на картинку"
-								autocomplete="off"
+								autoComplete="off"
 								className="popup__input_data_link-foto popup__input"
 								type="url"
 								required
