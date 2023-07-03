@@ -1,10 +1,31 @@
 import React from "react";
 import like from "../images/like.svg";
 import trash from "../images/trash.svg";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card({ card, handleCardClick }) {
+function Card({ card, handleCardClick, onCardLike, onCardDel }) {
+	const currentUser = React.useContext(CurrentUserContext);
+
+	const isOwn = card.owner._id === currentUser._id;
+
+	// Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+	const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+	// Создаём переменную, которую после зададим в `className` для кнопки лайка
+	const cardLikeButtonClassName = `place__like button button_condition_hover ${
+		isLiked && "place__like_active"
+	}`;
+
 	const cardClick = () => {
 		handleCardClick(card);
+	};
+
+	const cardLikeClick = () => {
+		onCardLike(card);
+	};
+
+	const cardDelClick = () => {
+		onCardDel(card);
 	};
 
 	return (
@@ -23,17 +44,26 @@ function Card({ card, handleCardClick }) {
 				<h2 className="place__title">{card.name}</h2>
 				<div className="like">
 					<button
+						onClick={cardLikeClick}
 						type="button"
-						className="place__like button button_condition_hover"
+						className={cardLikeButtonClassName}
 					>
 						<img src={like} alt="лайк." />
 					</button>
-					<span className="place__like-sum">{card.likes.length}</span>
+					<span className="place__like-sum">
+						{card.likes.length !== 0 && card.likes.length}
+					</span>
 				</div>
 			</div>
-			<button type="button" className="place__trash button button_condition_hover">
-				<img src={trash} alt="кнопка удаления." />
-			</button>
+			{isOwn && (
+				<button
+					type="button"
+					className="place__trash button button_condition_hover"
+					onClick={cardDelClick}
+				>
+					<img src={trash} alt="кнопка удаления." />
+				</button>
+			)}
 		</article>
 	);
 }

@@ -1,39 +1,24 @@
 import React from "react";
 import plus from "../images/plus.svg";
-import { api } from "../utils/api.js";
 import Card from "./Card.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-
-function Main({ onEditAvatar, onEditProfile, onAddPlace, handleCardClick }) {
-	const [userInfo, setUserInfo] = React.useState({
-		userName: "",
-		userDescription: "",
-		userAvatar: "",
-	});
-
-	const [cards, setIsCards] = React.useState([]);
-
-	React.useEffect(() => {
-		Promise.all([api.getInitialCards(), api.getUserInfo()])
-			.then(([initialCards, userInfo]) => {
-				const userId = userInfo._id;
-				setUserInfo({
-					userName: userInfo.name,
-					userDescription: userInfo.about,
-					userAvatar: userInfo.avatar,
-				});
-				setIsCards(initialCards);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
+function Main({
+	onEditAvatar,
+	onEditProfile,
+	onAddPlace,
+	handleCardClick,
+	handleCardLike,
+	cards,
+	handleCardDel,
+}) {
+	const currentUser = React.useContext(CurrentUserContext);
 
 	return (
 		<main className="content">
 			<section className="profile">
 				<img
-					style={{ backgroundImage: `url(${userInfo.userAvatar})` }}
+					style={{ backgroundImage: `url(${currentUser.avatar})` }}
 					className="profile__avatar"
 				/>
 				<button
@@ -42,8 +27,8 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, handleCardClick }) {
 				></button>
 				<div className="profile__info">
 					<div className="profile__text">
-						<h1 className="profile__name">{userInfo.userName}</h1>
-						<p className="profile__ocupation">{userInfo.userDescription}</p>
+						<h1 className="profile__name">{currentUser.name}</h1>
+						<p className="profile__ocupation">{currentUser.about}</p>
 					</div>
 					<button
 						type="button"
@@ -61,7 +46,13 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, handleCardClick }) {
 			</section>
 			<section className="grid-places">
 				{cards.map((card) => (
-					<Card key={card._id} card={card} handleCardClick={handleCardClick} />
+					<Card
+						key={card._id}
+						card={card}
+						handleCardClick={handleCardClick}
+						onCardLike={handleCardLike}
+						onCardDel={handleCardDel}
+					/>
 				))}
 			</section>
 		</main>

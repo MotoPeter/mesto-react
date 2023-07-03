@@ -6,6 +6,7 @@ function PopupWithForm({
 	buttonSubmitText,
 	isOpen,
 	onClose,
+	onSubmit,
 	children,
 }) {
 	React.useEffect(() => {
@@ -41,7 +42,12 @@ function PopupWithForm({
 					onClick={onClose}
 				></button>
 				<h3 className="popup__title">{title}</h3>
-				<form className="popup__form" name={name} noValidate>
+				<form
+					className="popup__form"
+					name={name}
+					noValidate
+					onSubmit={onSubmit}
+				>
 					{children}
 					<button
 						type="submit"

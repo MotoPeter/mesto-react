@@ -34,15 +34,15 @@ class Api {
 	}
 
 	//редактирование профиля на вход массив с именем и профессией
-	editProfile(formValues) {
+	editProfile({ name, about }) {
 		return fetch(`${this._url}/users/me`, {
 			//метод для частичного обновления
 			method: "PATCH",
 			headers: this._headers,
 			//преобразуем в строку
 			body: JSON.stringify({
-				name: formValues["name"],
-				about: formValues["about"],
+				name,
+				about,
 			}),
 			//полученный промис отправляем на проверку статуса
 		}).then((res) => this._checkResponse(res));
@@ -62,18 +62,18 @@ class Api {
 	}
 
 	//редактирование аватара
-	editAvatar(formValues) {
+	editAvatar({ avatar }) {
 		return fetch(`${this._url}/users/me/avatar`, {
 			method: "PATCH",
 			headers: this._headers,
 			body: JSON.stringify({
-				avatar: formValues["avatar"],
+				avatar,
 			}),
 		}).then((res) => this._checkResponse(res));
 	}
 
-	deleteCard(placeId) {
-		return fetch(`${this._url}/cards/${placeId}`, {
+	deleteCard(place) {
+		return fetch(`${this._url}/cards/${place._id}`, {
 			//метод для отправки данных
 			method: "DELETE",
 			headers: this._headers,
@@ -94,6 +94,14 @@ class Api {
 			method: "DELETE",
 			headers: this._headers,
 		}).then((res) => this._checkResponse(res));
+	}
+
+	changeLikeCardStatus(place, isLiked) {
+		if (isLiked) {
+			return this.putLike(place);
+		} else {
+			return this.delLike(place);
+		}
 	}
 }
 
